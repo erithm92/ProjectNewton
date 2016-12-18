@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PaddleBehavior : MonoBehaviour {
     public int force, charges, pauses;
-    public GameObject parent, forceOrigin;
+    public GameObject parent, forceOrigin, gameManager;
+    GameManager gm;
     public float rotSpeed = 10f, gravity = .03f;
     bool paused = false;
     Vector2 savedVelocity;
@@ -12,7 +13,12 @@ public class PaddleBehavior : MonoBehaviour {
 	void Start () {
         parent = transform.parent.gameObject;
         parent.GetComponent<Rigidbody2D>().gravityScale = 0;
-	}
+        gameManager = GameObject.Find("GameManager");
+        gm = gameManager.GetComponent<GameManager>();
+
+        gm.ChargeUpdate(charges);
+        gm.PauseUpdate(pauses);
+    }
 
     // Update is called once per frame
     void Update()
@@ -41,19 +47,13 @@ public class PaddleBehavior : MonoBehaviour {
             {
                 if (paused)
                 {
-                    Debug.Log("paused");
-
-                    Time.timeScale = 1;
-                    parent.GetComponent<Rigidbody2D>().gravityScale = gravity;
-                    parent.GetComponent<Rigidbody2D>().velocity = savedVelocity;
-                    parent.GetComponent<Rigidbody2D>().angularVelocity = savedAngularVelocity;
-                    parent.GetComponent<Rigidbody2D>().isKinematic = false;
-                    paused = false;
+                    UnPause();
                 } 
                 Time.timeScale = 1;
                 parent.GetComponent<Rigidbody2D>().gravityScale = gravity;
                 parent.GetComponent<Rigidbody2D>().AddForce(transform.up * force);
                 charges--;
+                gm.ChargeUpdate(charges);
             }
         }
 
@@ -61,14 +61,9 @@ public class PaddleBehavior : MonoBehaviour {
         {
             if (paused)
             {
-                Debug.Log("paused");
+                UnPause();
 
-                Time.timeScale = 1;
-                parent.GetComponent<Rigidbody2D>().gravityScale = gravity;
-                parent.GetComponent<Rigidbody2D>().velocity = savedVelocity;
-                parent.GetComponent<Rigidbody2D>().angularVelocity = savedAngularVelocity;
-                parent.GetComponent<Rigidbody2D>().isKinematic = false;
-                paused = false;
+               
             }
             else
             {
@@ -81,8 +76,18 @@ public class PaddleBehavior : MonoBehaviour {
                     savedAngularVelocity = parent.GetComponent<Rigidbody2D>().angularVelocity;
                     parent.GetComponent<Rigidbody2D>().isKinematic = true;
                     pauses--;
+                    gm.PauseUpdate(pauses);
                 }
             }
         }
+    }
+    void UnPause()
+    {
+        Time.timeScale = 1;
+        parent.GetComponent<Rigidbody2D>().gravityScale = gravity;
+        parent.GetComponent<Rigidbody2D>().velocity = savedVelocity;
+        parent.GetComponent<Rigidbody2D>().angularVelocity = savedAngularVelocity;
+        parent.GetComponent<Rigidbody2D>().isKinematic = false;
+        paused = false;
     }
 }
