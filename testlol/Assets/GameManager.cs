@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using LoLSDK;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MySingleton<GameManager>
 {
     
 
@@ -18,13 +18,23 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-
+        //LOLSDK.Init("com.margolisdesign.projectnewton");
+       
     }
     void Start ()
     {
-        //LOLSDK.Init("com.margolisdesign.projectnewton");
+        
+    }
+	
+	// Update is called once per frame
+	void Update ()
+    {
+        
+    }
+    void OnLevelWasLoaded ()
+    {
         if (forceUI == null)
-           forceUI = GameObject.Find("forceText");
+            forceUI = GameObject.Find("forceText");
         forceText = forceUI.GetComponent<Text>();
         if (chargeUI == null)
             chargeUI = GameObject.Find("chargeText");
@@ -32,29 +42,18 @@ public class GameManager : MonoBehaviour
         if (pauseUI == null)
             pauseUI = GameObject.Find("pauseText");
         pauseText = pauseUI.GetComponent<Text>();
-        if (winUI == null)
-            winUI = GameObject.Find("winText");
-        winText = winUI.GetComponent<Text>();
-        winUI.SetActive(false);
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        forceText.text = "Force\n" + paddle.GetComponent<PaddleBehavior>().force + "";
-       
         
     }
     public void Goal(float mod)
     {
-        winUI.SetActive(true);
-        //LOLSDK.Instance.CompleteGame();
         lvlscore = lvlscore * mod;
-        winText.text += "\n" + lvlscore;
+        LevelUI ui = (LevelUI)FindObjectOfType(typeof(LevelUI));
+        ui.WinScreen(lvlscore);
+        //LOLSDK.Instance.CompleteGame();
     }
     public void Reload()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     public void ChargeUpdate(int charges)
     {
@@ -63,5 +62,22 @@ public class GameManager : MonoBehaviour
     public void PauseUpdate(int pauses)
     {
         pauseText.text = "Pauses\n" + pauses + "";
+    }
+    public void ForceUpdate(int force)
+    {
+        forceText.text = "Force\n" + force + "";
+    }
+    public void loadLevelAfterQuiz(int bonus)
+    {
+        if (bonus == 2)
+        {
+            bonusCharges = 1;
+            bonusPauses = 1;
+        }
+        else if (bonus == 1)
+            bonusCharges = 1;
+
+        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(nextScene);
     }
 }

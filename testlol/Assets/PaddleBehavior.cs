@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PaddleBehavior : MonoBehaviour {
     public int force, charges, pauses;
-    public GameObject parent, forceOrigin, gameManager;
+    public GameObject forceOrigin, gameManager;
     GameManager gm;
     public float rotSpeed = 10f, gravity = .03f;
     bool paused = false;
@@ -11,10 +11,10 @@ public class PaddleBehavior : MonoBehaviour {
     float savedAngularVelocity;
 	// Use this for initialization
 	void Start () {
-        parent = transform.parent.gameObject;
-        parent.GetComponent<Rigidbody2D>().gravityScale = 0;
-        gameManager = GameObject.Find("GameManager");
-        gm = gameManager.GetComponent<GameManager>();
+        
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        gm = (GameManager) FindObjectOfType(typeof(GameManager));
+        //gm = gameManager.GetComponent<GameManager>();
 
         gm.ChargeUpdate(charges);
         gm.PauseUpdate(pauses);
@@ -29,6 +29,7 @@ public class PaddleBehavior : MonoBehaviour {
                 force--;
             else
                 force = 0;
+            gm.ForceUpdate(force);
         }
         if (Input.GetKey(KeyCode.D))
         {
@@ -36,11 +37,10 @@ public class PaddleBehavior : MonoBehaviour {
                 force++;
             else
                 force = 9999;
+            gm.ForceUpdate(force);
         }
 
-        float mouseHor = Input.GetAxis("Mouse X");
-
-        parent.transform.Rotate(new Vector3(0, 0, Input.GetAxis("Mouse X")) * rotSpeed);
+        transform.Rotate(new Vector3(0, 0, Input.GetAxis("Mouse X")) * rotSpeed);
         if (charges > 0)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -50,8 +50,8 @@ public class PaddleBehavior : MonoBehaviour {
                     UnPause();
                 } 
                 Time.timeScale = 1;
-                parent.GetComponent<Rigidbody2D>().gravityScale = gravity;
-                parent.GetComponent<Rigidbody2D>().AddForce(transform.up * force);
+                GetComponent<Rigidbody2D>().gravityScale = gravity;
+                GetComponent<Rigidbody2D>().AddForce(transform.up * force);
                 charges--;
                 gm.ChargeUpdate(charges);
             }
@@ -70,11 +70,11 @@ public class PaddleBehavior : MonoBehaviour {
                 if (pauses > 0)
                 {
                     Time.timeScale = 0;
-                    parent.GetComponent<Rigidbody2D>().gravityScale = 0;
+                    GetComponent<Rigidbody2D>().gravityScale = 0;
                     paused = true;
-                    savedVelocity = parent.GetComponent<Rigidbody2D>().velocity;
-                    savedAngularVelocity = parent.GetComponent<Rigidbody2D>().angularVelocity;
-                    parent.GetComponent<Rigidbody2D>().isKinematic = true;
+                    savedVelocity = GetComponent<Rigidbody2D>().velocity;
+                    savedAngularVelocity = GetComponent<Rigidbody2D>().angularVelocity;
+                    GetComponent<Rigidbody2D>().isKinematic = true;
                     pauses--;
                     gm.PauseUpdate(pauses);
                 }
@@ -84,10 +84,10 @@ public class PaddleBehavior : MonoBehaviour {
     void UnPause()
     {
         Time.timeScale = 1;
-        parent.GetComponent<Rigidbody2D>().gravityScale = gravity;
-        parent.GetComponent<Rigidbody2D>().velocity = savedVelocity;
-        parent.GetComponent<Rigidbody2D>().angularVelocity = savedAngularVelocity;
-        parent.GetComponent<Rigidbody2D>().isKinematic = false;
+        GetComponent<Rigidbody2D>().gravityScale = gravity;
+        GetComponent<Rigidbody2D>().velocity = savedVelocity;
+        GetComponent<Rigidbody2D>().angularVelocity = savedAngularVelocity;
+        GetComponent<Rigidbody2D>().isKinematic = false;
         paused = false;
     }
 }
