@@ -14,8 +14,6 @@ public class PaddleBehavior : MonoBehaviour {
         
         GetComponent<Rigidbody2D>().gravityScale = 0;
         gm = (GameManager) FindObjectOfType(typeof(GameManager));
-        //gm = gameManager.GetComponent<GameManager>();
-
         gm.ChargeUpdate(charges);
         gm.PauseUpdate(pauses);
     }

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using LoLSDK;
+//using LoLSDK;
 
 public class GameManager : MySingleton<GameManager>
 {
@@ -35,13 +35,23 @@ public class GameManager : MySingleton<GameManager>
     {
         if (forceUI == null)
             forceUI = GameObject.Find("forceText");
-        forceText = forceUI.GetComponent<Text>();
+        if (forceUI != null)
+            forceText = forceUI.GetComponent<Text>();
         if (chargeUI == null)
             chargeUI = GameObject.Find("chargeText");
-        chargeText = chargeUI.GetComponent<Text>();
+        if (chargeUI != null)
+            chargeText = chargeUI.GetComponent<Text>();
         if (pauseUI == null)
             pauseUI = GameObject.Find("pauseText");
-        pauseText = pauseUI.GetComponent<Text>();
+        if (pauseUI != null)
+            pauseText = pauseUI.GetComponent<Text>();
+        if (paddle == null)
+            paddle = GameObject.Find("Ball");
+        if (paddle != null)
+        {
+            paddle.GetComponent<PaddleBehavior>().charges += bonusCharges;
+            paddle.GetComponent<PaddleBehavior>().pauses += bonusPauses;
+        }
         
     }
     public void Goal(float mod)
@@ -67,7 +77,7 @@ public class GameManager : MySingleton<GameManager>
     {
         forceText.text = "Force\n" + force + "";
     }
-    public void loadLevelAfterQuiz(int bonus)
+    public void LoadLevelAfterQuiz(int bonus)
     {
         if (bonus == 2)
         {

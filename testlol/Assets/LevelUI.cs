@@ -7,7 +7,6 @@ public class LevelUI : MonoBehaviour {
     public GameObject[] wronganswers, rightanswers;
     public int rightSelected;
     public bool wrong = false;
-    public int rightanswercount;
 
     // Use this for initialization
     void Start()
@@ -17,7 +16,8 @@ public class LevelUI : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
 
     }
     public void WinScreen(float lvlscore)
@@ -27,13 +27,41 @@ public class LevelUI : MonoBehaviour {
     }
     public void SubmitAnswers()
     {
+        
+        foreach (GameObject wrongAnswer in wronganswers)
+        {
+            if (wrongAnswer.GetComponent<Toggle>().isOn)
+                wrong = true;
+        }
         if(!wrong)
         {
-            float rightBonus = rightanswercount / rightSelected;
-            if (rightBonus != 1)
+            foreach (GameObject rightAnswer in rightanswers)
             {
-
+                if (rightAnswer.GetComponent<Toggle>().isOn)
+                    rightSelected++;
+                
             }
+     
+            if (rightSelected == rightanswers.Length)
+            {
+                GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
+                gm.LoadLevelAfterQuiz(2);
+            }
+            else if (rightSelected >=1)
+            {
+                GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
+                gm.LoadLevelAfterQuiz(1);
+            }
+            else
+            {
+                GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
+                gm.LoadLevelAfterQuiz(0);
+            }
+        }
+        else
+        {
+            GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
+            gm.LoadLevelAfterQuiz(0);
         }
     }
 
