@@ -3,13 +3,13 @@ using System.Collections;
 
 public class Goal : MonoBehaviour
 {
-    GameObject gm;
+   
     public float scoreMod;
     bool scored;
 	// Use this for initialization
 	void Start ()
     {
-        gm = GameObject.Find("GameManager");
+       
         if (gameObject.tag == "GoalGood")
             scoreMod = 2f;
         if (gameObject.tag == "GoalMeh")
@@ -34,7 +34,8 @@ public class Goal : MonoBehaviour
             {
                 if (!scored)
                 {
-                    gm.GetComponent<GameManager>().Goal(scoreMod);
+                    GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
+                    gm.Goal(scoreMod);
                     scored = true;
                 }
             }

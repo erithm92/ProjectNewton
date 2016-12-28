@@ -25,6 +25,11 @@ public class LevelUI : MonoBehaviour {
         winUI.SetActive(true);
         winUI.GetComponent<Text>().text += "\n" + lvlscore;
     }
+    public void CompleteLevel()
+    {
+        GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
+        gm.LevelEnd();
+    }
     public void SubmitAnswers()
     {
         

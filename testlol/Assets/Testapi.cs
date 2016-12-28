@@ -15,6 +15,6 @@ public class Testapi : MonoBehaviour {
     public void StartLevel()
     {
         GameManager a= (GameManager)FindObjectOfType(typeof(GameManager));
-        a.Reload();
+        a.LevelEnd();
     }
 }

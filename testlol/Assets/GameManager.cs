@@ -63,7 +63,11 @@ public class GameManager : MySingleton<GameManager>
     }
     public void Reload()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void LevelEnd()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void ChargeUpdate(int charges)
     {
