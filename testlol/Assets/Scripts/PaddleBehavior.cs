@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PaddleBehavior : MonoBehaviour {
     public int force, charges, pauses;
-    public GameObject forceOrigin, gameManager;
+    public GameObject forceOrigin, gameManage, ball;
     GameManager gm;
     public float rotSpeed = 10f, gravity = .03f;
     bool paused = false;
@@ -20,6 +20,7 @@ public class PaddleBehavior : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        transform.position = ball.transform.position;
         if (Input.GetKey(KeyCode.A))
         {
             if (force > 0)
@@ -47,7 +48,7 @@ public class PaddleBehavior : MonoBehaviour {
                     UnPause();
                 } 
                 Time.timeScale = 1;
-                GetComponent<Rigidbody>().AddForce(transform.up * force);
+                ball.GetComponent<Rigidbody>().AddForce(transform.up * force);
                 charges--;
                 gm.ChargeUpdate(charges);
             }
@@ -75,17 +76,17 @@ public class PaddleBehavior : MonoBehaviour {
     void UnPause()
     {
         Time.timeScale = 1;
-        GetComponent<Rigidbody>().velocity = savedVelocity;
-        GetComponent<Rigidbody>().angularVelocity = savedAngularVelocity;
-        GetComponent<Rigidbody>().isKinematic = false;
+        ball.GetComponent<Rigidbody>().velocity = savedVelocity;
+        ball.GetComponent<Rigidbody>().angularVelocity = savedAngularVelocity;
+        ball.GetComponent<Rigidbody>().isKinematic = false;
         paused = false;
     }
     void Pause()
     {
         Time.timeScale = 0;
         paused = true;
-        savedVelocity = GetComponent<Rigidbody>().velocity;
-        savedAngularVelocity = GetComponent<Rigidbody>().angularVelocity;
-        GetComponent<Rigidbody>().isKinematic = true;
+        savedVelocity = ball.GetComponent<Rigidbody>().velocity;
+        savedAngularVelocity = ball.GetComponent<Rigidbody>().angularVelocity;
+        ball.GetComponent<Rigidbody>().isKinematic = true;
     }
 }

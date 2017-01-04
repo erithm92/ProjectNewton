@@ -46,7 +46,7 @@ public class GameManager : MySingleton<GameManager>
         if (pauseUI != null)
             pauseText = pauseUI.GetComponent<Text>();
         if (paddle == null)
-            paddle = GameObject.Find("Ball");
+            paddle = GameObject.Find("PaddleRoot");
         if (paddle != null)
         {
             paddle.GetComponent<PaddleBehavior>().charges += bonusCharges;
