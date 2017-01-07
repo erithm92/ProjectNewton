@@ -69,6 +69,10 @@ public class GameManager : MySingleton<GameManager>
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    public void MainMenuLoad()
+    {
+        SceneManager.LoadScene(0);
+    }
     public void ChargeUpdate(int charges)
     {
         chargeText.text = "Charge " + charges + "";

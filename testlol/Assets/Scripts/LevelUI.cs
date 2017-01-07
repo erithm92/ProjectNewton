@@ -44,6 +44,11 @@ public class LevelUI : MonoBehaviour {
         GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
         gm.Reload();
     }
+    public void MainMenu()
+    {
+        GameManager gm = (GameManager)FindObjectOfType(typeof(GameManager));
+        gm.MainMenuLoad();
+    }
     public void SubmitAnswers()
     {
         
