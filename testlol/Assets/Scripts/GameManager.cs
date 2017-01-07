@@ -71,15 +71,15 @@ public class GameManager : MySingleton<GameManager>
     }
     public void ChargeUpdate(int charges)
     {
-        chargeText.text = "Charges\n" + charges + "";
+        chargeText.text = "Charge " + charges + "";
     }
     public void PauseUpdate(int pauses)
     {
-        pauseText.text = "Pauses\n" + pauses + "";
+        pauseText.text = "Pauses " + pauses + "";
     }
     public void ForceUpdate(int force)
     {
-        forceText.text = "Force\n" + force + "";
+        forceText.text = "Force " + force + "";
     }
     public void LoadLevelAfterQuiz(int bonus)
     {

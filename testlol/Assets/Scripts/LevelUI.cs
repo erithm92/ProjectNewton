@@ -3,16 +3,22 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class LevelUI : MonoBehaviour {
-    public GameObject winUI;
+    public GameObject winUI, scoreUI, statsPanel;
     public GameObject[] wronganswers, rightanswers;
     public int rightSelected;
     public bool wrong = false;
+    public bool isLevel;
 
     // Use this for initialization
     void Start()
     {
-        if(winUI)
-         winUI.SetActive(false);
+        if (winUI)
+            winUI.SetActive(false);
+        if (isLevel)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     // Update is called once per frame
@@ -23,7 +29,10 @@ public class LevelUI : MonoBehaviour {
     public void WinScreen(float lvlscore)
     {
         winUI.SetActive(true);
-        winUI.GetComponent<Text>().text += "\n" + lvlscore;
+        statsPanel.SetActive(false);
+        scoreUI.GetComponent<Text>().text = "Level Score " + lvlscore;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
     public void CompleteLevel()
     {
