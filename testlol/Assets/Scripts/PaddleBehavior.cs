@@ -21,6 +21,19 @@ public class PaddleBehavior : MonoBehaviour {
     void Update()
     {
         transform.position = ball.transform.position;
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (force > 0)
+                force -= 5;
+            else
+                force = 0;
+            gm.ForceUpdate(force);
+            if (paddle.transform.position != paddlePlacement.transform.position)
+            {
+                paddle.transform.position += (transform.up * force / 5000);
+            }
+            // transform.Rotate(new Vector3(0, 0, 1) * rotSpeed); //for mouse
+        }
         if (Input.GetKey(KeyCode.A))
         {
             if (force > 0)
@@ -30,19 +43,52 @@ public class PaddleBehavior : MonoBehaviour {
             gm.ForceUpdate(force);
             if(paddle.transform.position != paddlePlacement.transform.position)
             {
-                paddle.transform.position += (transform.up * force/10000);
+                paddle.transform.position += (transform.up * force/5000);
             }
+           // transform.Rotate(new Vector3(0, 0, 1) * rotSpeed); //for mouse
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (force < 9999)
+                force += 5;
+            else
+                force = 9999;
+            gm.ForceUpdate(force);
+            paddle.transform.position -= (transform.up * force / 5000);
+            //transform.Rotate(new Vector3(0, 0, -1) * rotSpeed); // for mouse
         }
         if (Input.GetKey(KeyCode.D))
+        {
+             if (force < 9999)
+                 force += 10;
+             else
+                 force = 9999;
+             gm.ForceUpdate(force);
+             paddle.transform.position -=(transform.up * force/5000);
+            //transform.Rotate(new Vector3(0, 0, -1) * rotSpeed); // for mouse
+        }
+        /*if (Input.GetAxis("Mouse X") < 0 ) //for mouse
+        {
+            if (force > 0)
+                force -= 10;
+            else
+                force = 0;
+            gm.ForceUpdate(force);
+            if (paddle.transform.position != paddlePlacement.transform.position)
+            {
+                paddle.transform.position += (transform.up * force / 10000);
+            }
+        }
+        if(Input.GetAxis("Mouse X") > 0)
         {
             if (force < 9999)
                 force += 10;
             else
                 force = 9999;
             gm.ForceUpdate(force);
-            paddle.transform.position -=(transform.up * force/10000);
-        }
-
+            paddle.transform.position -= (transform.up * force / 10000);
+        }*/
+        //original 
         transform.Rotate(new Vector3(0, 0, - Input.GetAxis("Mouse X")) * rotSpeed);
         if (charges > 0)
         {

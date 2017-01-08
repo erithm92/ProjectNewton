@@ -83,7 +83,7 @@ public class GameManager : MySingleton<GameManager>
     }
     public void ForceUpdate(int force)
     {
-        forceText.text = "Force " + force + "";
+        forceText.text = "Force " + force + "N";
     }
     public void LoadLevelAfterQuiz(int bonus)
     {
