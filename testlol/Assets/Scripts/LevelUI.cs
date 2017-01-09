@@ -16,8 +16,8 @@ public class LevelUI : MonoBehaviour {
             winUI.SetActive(false);
         if (isLevel)
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+           // Cursor.visible = false;
+           // Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -31,8 +31,8 @@ public class LevelUI : MonoBehaviour {
         winUI.SetActive(true);
         statsPanel.SetActive(false);
         scoreUI.GetComponent<Text>().text = "Level Score " + lvlscore;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+      //  Cursor.visible = true;
+       // Cursor.lockState = CursorLockMode.None;
     }
     public void CompleteLevel()
     {
